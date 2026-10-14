@@ -19,7 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="debugManager.h" />
+    <ClInclude Include="DebugStudio\debugManager.h" />
+    <ClInclude Include="DebugStudio\Inspector\inspector.h" />
     <ClInclude Include="renderer.h" />
     <ClInclude Include="ThirdParty\imgui\backends\imgui_impl_dx11.h" />
     <ClInclude Include="ThirdParty\imgui\backends\imgui_impl_win32.h" />
@@ -32,7 +33,8 @@
     <ClInclude Include="window.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="debugManager.cpp" />
+    <ClCompile Include="DebugStudio\debugManager.cpp" />
+    <ClCompile Include="DebugStudio\Inspector\inspector.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="renderer.cpp" />
     <ClCompile Include="ThirdParty\imgui\backends\imgui_impl_dx11.cpp" />
@@ -97,7 +99,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <PublicIncludeDirectories>$(ProjectDir)ThirdParty\imgui;$(ProjectDir)ThirdParty\imgui\backends;$(PublicIncludeDirectories)</PublicIncludeDirectories>
+    <PublicIncludeDirectories>$(ProjectDir)ThirdParty\imgui;$(ProjectDir)ThirdParty\imgui\backends;$(ProjectDir)DebugStudio;$(ProjectDir)DebugStudio\Inspector;$(PublicIncludeDirectories)</PublicIncludeDirectories>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -131,7 +133,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)ThirdParty/imgui;$(ProjectDir)ThirdParty/imgui/backends</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)ThirdParty/imgui;$(ProjectDir)ThirdParty/imgui/backends;$(ProjectDir)DebugStudio;$(ProjectDir)DebugStudio/Inspector</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
