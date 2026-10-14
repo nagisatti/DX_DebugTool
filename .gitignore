@@ -1,0 +1,20 @@
+# Visual Studio
+.vs/
+*.user
+*.suo
+
+# Build files
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+
+# Intermediate files
+*.obj
+*.pdb
+*.ilk
+*.tlog
+*.lastbuildstate
+*.idb
+*.ipch
+*.pch
