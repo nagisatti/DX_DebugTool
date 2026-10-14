@@ -1,4 +1,15 @@
+/*
+*  window.cpp
+*  このクラスは、ウィンドウの作成と管理を行うため
+*/
+
+
+//********************************************************************
+// インクルード
+//********************************************************************
 #include "Window.h"
+#include "imgui.h"
+#include "imgui_impl_win32.h"
 
 //********************************************************************
 // コンストラクタ
@@ -44,7 +55,7 @@ bool Window::Initialize(
 	wc.lpfnWndProc = WindowProc;                   // ウィンドウプロシージャの関数ポインタを設定、windowのメッセージを処理する関数
 	wc.hInstance = hInstance;                      // ウィンドウクラスを登録するアプリケーションのインスタンスハンドル
 	wc.hCursor = LoadCursor(nullptr, IDC_ARROW);   // カーソルの形状を設定、IDC_ARROWは矢印のカーソル
-	wc.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1); // ウィンドウの背景色を設定、COLOR_WINDOWはウィンドウの背景色、WinUser.hに定義されている
+    wc.hbrBackground = nullptr;                    // ウィンドウの背景色を設定、COLOR_WINDOWはウィンドウの背景色、WinUser.hに定義されている
 	wc.lpszClassName = L"GameDebugStudioWindow";   // ウィンドウクラスの名前を設定
 
     // ウィンドウクラスを登録
@@ -99,6 +110,16 @@ HWND Window::GetHWND() const
     return m_hwnd;
 }
 
+//********************************************************************
+// ImGuiのウィンドウプロシージャハンドラを呼び出す
+//********************************************************************
+extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(
+    HWND hwnd,
+    UINT msg,
+    WPARAM wParam,
+    LPARAM lParam
+);
+
 //******************************************************************** 
 // ウィンドウのメッセージを処理する
 // 必要に応じて、メッセージを処理するコードを追加する
@@ -110,6 +131,17 @@ LRESULT CALLBACK Window::WindowProc(
     LPARAM lParam
 )
 {
+	// ImGuiのコンテキストが存在する場合は、ImGuiのウィンドウプロシージャハンドラを呼び出す
+    if (ImGui::GetCurrentContext() != nullptr)
+        // ImGuiにWindowsメッセージを渡す
+        if (ImGui_ImplWin32_WndProcHandler(
+            hwnd,
+            message,
+            wParam,
+            lParam
+        ))
+            return 1;
+
 	// メッセージの種類に応じて処理を分岐
     switch (message)
     {
@@ -124,4 +156,5 @@ LRESULT CALLBACK Window::WindowProc(
         wParam,
         lParam
     );
+
 }

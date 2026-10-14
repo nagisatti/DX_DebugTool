@@ -1,6 +1,11 @@
+
+//********************************************************************
+// インクルード
+//********************************************************************
 #include <Windows.h>
 #include "Window.h"
 #include "renderer.h"
+#include "debugManager.h"
 
 int WINAPI WinMain(
     HINSTANCE hInstance,
@@ -49,6 +54,24 @@ int WINAPI WinMain(
         return -1;
     }
 
+	// ImGui生成
+	DebugManager debugManager;
+
+    if (!debugManager.Initialize(
+        window.GetHWND(),
+        renderer.GetDevice(),
+        renderer.GetContext()
+    ))
+    {
+        MessageBoxW(
+            nullptr,
+            L"ImGuiの初期化に失敗しました",
+            L"Error",
+            MB_OK | MB_ICONERROR
+        );
+        return -1;
+	}
+
     // ウィンドウを表示
     window.Show(nCmdShow);
 
@@ -62,8 +85,7 @@ int WINAPI WinMain(
             nullptr,
             0,
             0,
-            PM_REMOVE
-        ))
+            PM_REMOVE))
         {
             TranslateMessage(&msg);
             DispatchMessageW(&msg);
@@ -72,8 +94,14 @@ int WINAPI WinMain(
         {
             renderer.BeginFrame();
 
+
+            debugManager.Update();
+			debugManager.BeginFrame();
+
             // 後でゲーム・ImGuiの描画を追加
 
+			debugManager.Render();
+             
             renderer.EndFrame();
         }
     }

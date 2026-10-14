@@ -25,6 +25,9 @@
     <Filter Include="ThirdParty\imgui\01_core">
       <UniqueIdentifier>{e66b104a-c797-4e65-bbc9-20c9db0ffa41}</UniqueIdentifier>
     </Filter>
+    <Filter Include="DebugManager">
+      <UniqueIdentifier>{9e0a33fc-280c-4f65-90cc-9e1c1ea0904d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ThirdParty\imgui\backends\imgui_impl_dx11.h">
@@ -57,6 +60,9 @@
     <ClInclude Include="renderer.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="debugManager.h">
+      <Filter>DebugManager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ThirdParty\imgui\backends\imgui_impl_win32.cpp">
@@ -88,6 +94,9 @@
     </ClCompile>
     <ClCompile Include="renderer.cpp">
       <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="debugManager.cpp">
+      <Filter>DebugManager</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
