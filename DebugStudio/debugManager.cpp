@@ -108,6 +108,24 @@ void DebugManager::Render()
 
 		// ƒfƒoƒbƒOî•ñ‚ğ•\¦
 
+		// Inspector‚ğ•`‰æ
+		if (ImGui::CollapsingHeader("Inspector"))
+		{
+			// “à‘¤‚Ìƒpƒlƒ‹
+			ImGui::BeginChild(
+				"InspectorPanel",
+				ImVec2(0, 180),
+				ImGuiChildFlags_Borders
+			);
+
+			ImGui::Text("Player Properties");
+			ImGui::Separator();
+
+			m_inspector.Render();
+
+			ImGui::EndChild();
+		}
+
 		ImGui::Text("FPS: %.1f", ImGui::GetIO().Framerate);
 
 
@@ -142,4 +160,28 @@ void DebugManager::Release()
 
 	// ‰ğ•úŠ®—¹
 	m_initialized = false;
+}
+
+//********************************************************************
+// Inspector‚Ö•Ï”“o˜^
+//********************************************************************
+void DebugManager::RegisterFloat(const std::string& name, float* value)
+{
+	m_inspector.RegisterFloat(name, value);
+}
+
+//********************************************************************
+// Inspector‚Ö•Ï”“o˜^
+//********************************************************************
+void DebugManager::RegisterInt(const std::string& name, int* value)
+{
+	m_inspector.RegisterInt(name, value);
+}
+
+//********************************************************************
+// Inspector‚Ö•Ï”“o˜^
+//********************************************************************
+void DebugManager::RegisterBool(const std::string& name, bool* value)
+{
+	m_inspector.RegisterBool(name, value);
 }
