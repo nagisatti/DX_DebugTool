@@ -4,8 +4,14 @@
 * 
 */
 
+//********************************************************************
+// インクルード
+//********************************************************************
 #include "renderer.h"
 
+//********************************************************************
+// リンク設定
+//********************************************************************
 #pragma comment(lib, "d3d11.lib")
 #pragma comment(lib, "dxgi.lib")
 
@@ -74,6 +80,13 @@ bool Renderer::Initialize(HWND hwnd, int width, int height)
 		IID_PPV_ARGS(backBuffer.GetAddressOf())
 	);
 
+	if (FAILED(hr))
+	{
+		Release();
+		return false;
+	}
+
+
 	// RenderTargetViewを作成
 	// バックバッファをDX11の描画先として使用するために、RenderTargetViewを作成する
 	// ただ作成しただけでは描画先として使用できないため、毎フレームOMsetRenderTargets関数で設定する必要がある
@@ -114,19 +127,19 @@ bool Renderer::Initialize(HWND hwnd, int width, int height)
 void Renderer::BeginFrame()
 {
 	// 背景色
-	const float clearColor[4] = { 0.1f, 0.1f, 0.3f, 1.0f }; // RGBA
+	const float clearColor[4] = { 0.1f, 0.0f, 0.3f, 1.0f }; // RGBA
 
     // 描画先の設定
 	ID3D11RenderTargetView* renderTaget = m_renderTargetView.Get();
 
 	m_context->OMSetRenderTargets(
 		1,
-		m_renderTargetView.GetAddressOf(),
+		&renderTaget,
 		nullptr
 	);
 
 	m_context->ClearRenderTargetView(
-		m_renderTargetView.Get(),
+		renderTaget,
 		clearColor
 	);
 
