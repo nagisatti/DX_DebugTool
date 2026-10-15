@@ -36,6 +36,10 @@ public:
 	void RegisterInt(const std::string& name, int* value);
 	void RegisterBool(const std::string& name, bool* value);
 
+	// 変数グループをインスペクタに登録
+	void BeginInspectorGroup(const std::string& groupName);
+	void EndInspectorGroup();
+
 private:
 	bool m_visible = true;     // デバッグ描画の可視状態
 	bool m_initialized = true; // 初期化成功・失敗のフラッグ

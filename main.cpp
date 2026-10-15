@@ -76,10 +76,11 @@ int WINAPI WinMain(
         return -1;
 	}
 
+    debugManager.BeginInspectorGroup("player");
     debugManager.RegisterFloat("Player Speed", &playerSpeed);
     debugManager.RegisterInt("Player HP", &playerHP);
     debugManager.RegisterBool("Invincible", &invincible);
-
+    debugManager.EndInspectorGroup();
     // ウィンドウを表示
     window.Show(nCmdShow);
 

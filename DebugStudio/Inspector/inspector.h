@@ -22,6 +22,11 @@ public:
 	void RegisterInt(const std::string& name, int* value);
 	void RegisterBool(const std::string& name, bool* value);
 
+	// グループ作成開始
+	void BeginGroup(const std::string& groupName);
+	// グループ作成終了
+	void EndGroup();
+
 	// Inspectorの描画
 	void Render();
 
@@ -41,12 +46,16 @@ private:
 	struct InspectorItem
 	{
 		std::string name;
+		std::string groupName;
 		ValueType type;
 		void* value;
 	};
 
 	// 登録された変数の一覧
 	std::vector<InspectorItem> m_items;
+
+	// 現在所属しているグループ名
+	std::string m_currentGroup;
 };
 
 

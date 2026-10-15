@@ -111,24 +111,10 @@ void DebugManager::Render()
 		// Inspector‚ğ•`‰æ
 		if (ImGui::TreeNode("Inspector"))
 		{
-			if (ImGui::TreeNode("Player"))
-			{
-				ImGui::Separator();
 
-				m_inspector.Render();
+			ImGui::Separator();
 
-				ImGui::TreePop();
-			}
-			
-			if(ImGui::TreeNode("enemy"))
-			{
-				ImGui::Separator();
-
-				m_inspector.Render();
-
-				ImGui::TreePop();
-
-			}
+			m_inspector.Render();
 
 			ImGui::TreePop();
 		}
@@ -172,23 +158,38 @@ void DebugManager::Release()
 //********************************************************************
 // Inspector‚Ö•Ï”“o˜^
 //********************************************************************
-void DebugManager::RegisterFloat(const std::string& name, float* value)
+#pragma region Inspector“o˜^ŠÖ”
+	// float
+	void DebugManager::RegisterFloat(const std::string & name, float* value)
+	{
+		m_inspector.RegisterFloat(name, value);
+	}
+
+	// int
+	void DebugManager::RegisterInt(const std::string & name, int* value)
+	{
+		m_inspector.RegisterInt(name, value);
+	}
+
+	// bool
+	void DebugManager::RegisterBool(const std::string & name, bool* value)
+	{
+		m_inspector.RegisterBool(name, value);
+	}
+#pragma endregion
+
+//********************************************************************
+// ƒOƒ‹[ƒv“o˜^ŠJn
+//********************************************************************
+void DebugManager::BeginInspectorGroup(const std::string& groupName)
 {
-	m_inspector.RegisterFloat(name, value);
+	m_inspector.BeginGroup(groupName);
 }
 
 //********************************************************************
-// Inspector‚Ö•Ï”“o˜^
+// ƒOƒ‹[ƒv“o˜^I—¹
 //********************************************************************
-void DebugManager::RegisterInt(const std::string& name, int* value)
+void DebugManager::EndInspectorGroup()
 {
-	m_inspector.RegisterInt(name, value);
-}
-
-//********************************************************************
-// Inspector‚Ö•Ï”“o˜^
-//********************************************************************
-void DebugManager::RegisterBool(const std::string& name, bool* value)
-{
-	m_inspector.RegisterBool(name, value);
+	m_inspector.EndGroup();
 }

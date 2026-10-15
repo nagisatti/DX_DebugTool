@@ -12,14 +12,23 @@
 //********************************************************************
 // float‚Ì•Ï”“o˜^
 //********************************************************************
+#pragma region •Ï”“o˜^
 void Inspector::RegisterFloat(const std::string& name, float* value)
 {
 	// ƒK[ƒhˆ—
 	if (value == nullptr)
 		return;
 
+	// d•¡“o˜^–h~
+	for (const auto& item : m_items)
+	{
+		if (item.groupName == m_currentGroup && item.name == name)
+			return;
+	}
+
 	m_items.push_back({
 		name,
+		 m_currentGroup,
 		ValueType::Float,
 		value
 		});
@@ -35,8 +44,16 @@ void Inspector::RegisterInt(const std::string& name, int* value)
 	if (value == nullptr)
 		return;
 
+	// d•¡“o˜^–h~
+	for (const auto& item : m_items)
+	{
+		if (item.groupName == m_currentGroup && item.name == name)
+			return;
+	}
+
 	m_items.push_back({
 		name,
+		 m_currentGroup,
 		ValueType::Int,
 		value
 		});
@@ -52,51 +69,99 @@ void Inspector::RegisterBool(const std::string& name, bool* value)
 	if (value == nullptr)
 		return;
 
+	// d•¡“o˜^–h~
+	for (const auto& item : m_items)
+	{
+		if (item.groupName == m_currentGroup && item.name == name)
+			return;
+	}
+
 	m_items.push_back({
 		name,
+		 m_currentGroup,
 		ValueType::Bool,
 		value
 		});
 
 }
+#pragma endregion
 
 //********************************************************************
 // Inspector‚Ì•`‰æ
 //********************************************************************
 void Inspector::Render()
 {
-	for (auto& item : m_items)
+	for (const auto& gropItem : m_items)
 	{
 
-		ImGui::PushID(item.name.c_str());
+		const std::string& group = gropItem.groupName;
 
-		// ¶‘¤‚É•Ï”–¼‚ğ•\¦
-		ImGui::TextUnformatted(item.name.c_str());
+		// d•¡‚µ‚½•\¦‚Ì–h~
+		bool isDisplay = false;
 
-		// Ÿ‚Ì—v‘f‚ğ“¯‚¶s‚É”z’u
-		ImGui::SameLine(150.0f);
-
-		// “ü—Í—“‚Ì•
-		ImGui::SetNextItemWidth(-1.0f);
-
-
-		switch (item.type)
+		
+		for (const auto& previous : m_items)
 		{
-		case ValueType::Float:
-			//ImGui::DragFloat(item.name.c_str(), static_cast<float*>(item.value));
-			ImGui::SliderFloat(item.name.c_str(), static_cast<float*>(item.value), 0.0f, 10.0f);
-			break;
+			// Œ»İ‚Ì—v‘f‚Ü‚Å’²‚×‚½‚çŒŸõI—¹
+			if (&previous == &gropItem)
+				break;
 
-		case ValueType::Int:
-			ImGui::DragInt(item.name.c_str(), static_cast<int*>(item.value));
-			break;
+			// ˆÈ‘O‚É“¯‚¶ƒOƒ‹[ƒv‚ª‘¶İ‚µ‚½‚çd•¡‚Æ”»’è
+			if (previous.groupName == group)
+			{
+				isDisplay = true;
+				break;
+			}
+		}
 
-		case ValueType::Bool:
-			ImGui::Checkbox(item.name.c_str(), static_cast<bool*>(item.value));
-			break;
+		// •\¦‚µ‚Ä‚¢‚½‚ç”ò‚Î‚·
+		if (isDisplay)
+			continue;
 
-		default:
-			break;
+
+		ImGui::PushID(group.c_str());
+
+		if (ImGui::TreeNode(group.empty() ? "General" : group.c_str()))
+		{
+			for (const auto& item : m_items)
+			{
+				if (item.groupName != group)
+					continue;
+
+				ImGui::PushID(item.name.c_str());
+
+				// ¶‘¤‚É•Ï”–¼‚ğ•\¦
+				ImGui::TextUnformatted(item.name.c_str());
+
+				// Ÿ‚Ì—v‘f‚ğ“¯‚¶s‚É”z’u
+				ImGui::SameLine(150.0f);
+
+				// “ü—Í—“‚Ì•
+				ImGui::SetNextItemWidth(-1.0f);
+
+				switch (item.type)
+				{
+				case ValueType::Float:
+					//ImGui::DragFloat(item.name.c_str(), static_cast<float*>(item.value));
+					ImGui::SliderFloat(item.name.c_str(), static_cast<float*>(item.value), -100.0f, 5000.0f);
+					break;
+
+				case ValueType::Int:
+					//ImGui::DragInt(item.name.c_str(), static_cast<int*>(item.value));
+					ImGui::SliderInt(item.name.c_str(), static_cast<int*>(item.value), -100, 5000);
+					break;
+
+				case ValueType::Bool:
+					ImGui::Checkbox(item.name.c_str(), static_cast<bool*>(item.value));
+					break;
+
+				default:
+					break;
+				}
+				ImGui::PopID();
+			}			
+			// TreeNode‚ğŠJ‚¢‚½ê‡‚¾‚¯ŒÄ‚Ño‚·
+			ImGui::TreePop();
 		}
 
 		ImGui::PopID();
@@ -110,4 +175,20 @@ void Inspector::Render()
 void Inspector::Delete()
 {
 	m_items.clear();
+}
+
+//********************************************************************
+// ƒOƒ‹[ƒvì¬ŠJn
+//********************************************************************
+void Inspector::BeginGroup(const std::string& groupName)
+{
+	m_currentGroup = groupName;
+}
+
+//********************************************************************
+// ƒOƒ‹[ƒvì¬I—¹
+//********************************************************************
+void Inspector::EndGroup()
+{
+	m_currentGroup.clear();
 }
