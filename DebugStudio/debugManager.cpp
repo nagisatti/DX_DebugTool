@@ -109,21 +109,28 @@ void DebugManager::Render()
 		// デバッグ情報を表示
 
 		// Inspectorを描画
-		if (ImGui::CollapsingHeader("Inspector"))
+		if (ImGui::TreeNode("Inspector"))
 		{
-			// 内側のパネル
-			ImGui::BeginChild(
-				"InspectorPanel",
-				ImVec2(0, 180),
-				ImGuiChildFlags_Borders
-			);
+			if (ImGui::TreeNode("Player"))
+			{
+				ImGui::Separator();
 
-			ImGui::Text("Player Properties");
-			ImGui::Separator();
+				m_inspector.Render();
 
-			m_inspector.Render();
+				ImGui::TreePop();
+			}
+			
+			if(ImGui::TreeNode("enemy"))
+			{
+				ImGui::Separator();
 
-			ImGui::EndChild();
+				m_inspector.Render();
+
+				ImGui::TreePop();
+
+			}
+
+			ImGui::TreePop();
 		}
 
 		ImGui::Text("FPS: %.1f", ImGui::GetIO().Framerate);
