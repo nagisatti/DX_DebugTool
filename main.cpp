@@ -54,6 +54,10 @@ int WINAPI WinMain(
         return -1;
     }
 
+    float playerSpeed = 5.0f;
+    int playerHP = 100;
+    bool invincible = false;
+
 	// ImGui生成
 	DebugManager debugManager;
 
@@ -72,6 +76,11 @@ int WINAPI WinMain(
         return -1;
 	}
 
+    debugManager.BeginInspectorGroup("player");
+    debugManager.RegisterFloat("Player Speed", &playerSpeed);
+    debugManager.RegisterInt("Player HP", &playerHP);
+    debugManager.RegisterBool("Invincible", &invincible);
+    debugManager.EndInspectorGroup();
     // ウィンドウを表示
     window.Show(nCmdShow);
 

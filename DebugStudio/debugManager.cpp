@@ -108,6 +108,17 @@ void DebugManager::Render()
 
 		// ƒfƒoƒbƒOî•ñ‚ğ•\¦
 
+		// Inspector‚ğ•`‰æ
+		if (ImGui::TreeNode("Inspector"))
+		{
+
+			ImGui::Separator();
+
+			m_inspector.Render();
+
+			ImGui::TreePop();
+		}
+
 		ImGui::Text("FPS: %.1f", ImGui::GetIO().Framerate);
 
 
@@ -142,4 +153,43 @@ void DebugManager::Release()
 
 	// ‰ğ•úŠ®—¹
 	m_initialized = false;
+}
+
+//********************************************************************
+// Inspector‚Ö•Ï”“o˜^
+//********************************************************************
+#pragma region Inspector“o˜^ŠÖ”
+	// float
+	void DebugManager::RegisterFloat(const std::string & name, float* value)
+	{
+		m_inspector.RegisterFloat(name, value);
+	}
+
+	// int
+	void DebugManager::RegisterInt(const std::string & name, int* value)
+	{
+		m_inspector.RegisterInt(name, value);
+	}
+
+	// bool
+	void DebugManager::RegisterBool(const std::string & name, bool* value)
+	{
+		m_inspector.RegisterBool(name, value);
+	}
+#pragma endregion
+
+//********************************************************************
+// ƒOƒ‹[ƒv“o˜^ŠJn
+//********************************************************************
+void DebugManager::BeginInspectorGroup(const std::string& groupName)
+{
+	m_inspector.BeginGroup(groupName);
+}
+
+//********************************************************************
+// ƒOƒ‹[ƒv“o˜^I—¹
+//********************************************************************
+void DebugManager::EndInspectorGroup()
+{
+	m_inspector.EndGroup();
 }

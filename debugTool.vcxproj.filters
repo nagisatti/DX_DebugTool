@@ -25,8 +25,11 @@
     <Filter Include="ThirdParty\imgui\01_core">
       <UniqueIdentifier>{e66b104a-c797-4e65-bbc9-20c9db0ffa41}</UniqueIdentifier>
     </Filter>
-    <Filter Include="DebugManager">
+    <Filter Include="DebugStudio">
       <UniqueIdentifier>{9e0a33fc-280c-4f65-90cc-9e1c1ea0904d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DebugStudio\Inspector">
+      <UniqueIdentifier>{7c7d0aff-7061-4fd1-a141-425dc539bcaf}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -60,8 +63,11 @@
     <ClInclude Include="renderer.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="debugManager.h">
-      <Filter>DebugManager</Filter>
+    <ClInclude Include="DebugStudio\debugManager.h">
+      <Filter>DebugStudio</Filter>
+    </ClInclude>
+    <ClInclude Include="DebugStudio\Inspector\inspector.h">
+      <Filter>DebugStudio\Inspector</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -95,8 +101,11 @@
     <ClCompile Include="renderer.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="debugManager.cpp">
-      <Filter>DebugManager</Filter>
+    <ClCompile Include="DebugStudio\debugManager.cpp">
+      <Filter>DebugStudio</Filter>
+    </ClCompile>
+    <ClCompile Include="DebugStudio\Inspector\inspector.cpp">
+      <Filter>DebugStudio\Inspector</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
