@@ -10,9 +10,10 @@
 #include "imgui.h"
 
 //********************************************************************
-// float‚Ì•Ï”“o˜^
+// •Ï”“o˜^
 //********************************************************************
 #pragma region •Ï”“o˜^
+// float
 void Inspector::RegisterFloat(const std::string& name, float* value)
 {
 	// ƒK[ƒhˆ—
@@ -26,18 +27,11 @@ void Inspector::RegisterFloat(const std::string& name, float* value)
 			return;
 	}
 
-	m_items.push_back({
-		name,
-		 m_currentGroup,
-		ValueType::Float,
-		value
-		});
+	m_items.push_back({name,m_currentGroup,ValueType::Float,value});
 
 }
 
-//********************************************************************
-// int‚Ì•Ï”“o˜^
-//********************************************************************
+// int
 void Inspector::RegisterInt(const std::string& name, int* value)
 {
 	// ƒK[ƒhˆ—
@@ -51,18 +45,11 @@ void Inspector::RegisterInt(const std::string& name, int* value)
 			return;
 	}
 
-	m_items.push_back({
-		name,
-		 m_currentGroup,
-		ValueType::Int,
-		value
-		});
+	m_items.push_back({name,m_currentGroup,ValueType::Int,value});
 
 }
 
-//********************************************************************
-// bool‚Ì•Ï”“o˜^
-//********************************************************************
+// bool
 void Inspector::RegisterBool(const std::string& name, bool* value)
 {
 	// ƒK[ƒhˆ—
@@ -76,14 +63,44 @@ void Inspector::RegisterBool(const std::string& name, bool* value)
 			return;
 	}
 
-	m_items.push_back({
-		name,
-		 m_currentGroup,
-		ValueType::Bool,
-		value
-		});
+	m_items.push_back({name,m_currentGroup,ValueType::Bool,value});
 
 }
+
+// Vector2
+void Inspector::RegisterVector2(const std::string& name, Vector2* value)
+{
+	// ƒK[ƒhˆ—
+	if (value == nullptr)
+		return;
+
+	// d•¡“o˜^–h~
+	for (const auto& item : m_items)
+	{
+		if (item.groupName == m_currentGroup && item.name == name)
+			return;
+	}
+
+	m_items.push_back({name,m_currentGroup,ValueType::VECTOR2,value});
+}
+
+// vector3
+void Inspector::RegisterVector3(const std::string& name, Vector3* value)
+{
+	// ƒK[ƒhˆ—
+	if (value == nullptr)
+		return;
+
+	// d•¡“o˜^–h~
+	for (const auto& item : m_items)
+	{
+		if (item.groupName == m_currentGroup && item.name == name)
+			return;
+	}
+
+	m_items.push_back({name,m_currentGroup,ValueType::VECTOR3,value});
+}
+
 #pragma endregion
 
 //********************************************************************
@@ -98,7 +115,6 @@ void Inspector::Render()
 
 		// d•¡‚µ‚½•\¦‚Ì–h~
 		bool isDisplay = false;
-
 		
 		for (const auto& previous : m_items)
 		{
@@ -143,18 +159,49 @@ void Inspector::Render()
 				{
 				case ValueType::Float:
 					//ImGui::DragFloat(item.name.c_str(), static_cast<float*>(item.value));
-					ImGui::SliderFloat(item.name.c_str(), static_cast<float*>(item.value), -100.0f, 5000.0f);
+					ImGui::SliderFloat("##Value", static_cast<float*>(item.value), -100.0f, 5000.0f);
 					break;
 
 				case ValueType::Int:
 					//ImGui::DragInt(item.name.c_str(), static_cast<int*>(item.value));
-					ImGui::SliderInt(item.name.c_str(), static_cast<int*>(item.value), -100, 5000);
+					ImGui::SliderInt("##Value", static_cast<int*>(item.value), -100, 5000);
 					break;
 
 				case ValueType::Bool:
-					ImGui::Checkbox(item.name.c_str(), static_cast<bool*>(item.value));
+					ImGui::Checkbox("##Value", static_cast<bool*>(item.value));
 					break;
 
+				case ValueType::VECTOR2:
+				{
+					Vector2* vec = static_cast<Vector2*>(item.value);
+
+					float values[2] = { vec->x,vec->y };
+
+					// ’l‚ª•ÏX‚³‚ê‚½ê‡‚Ì‚İ‘ã“ü
+					if (ImGui::SliderFloat2("##Value", values, -100.0f, 5000.0f))
+					{
+						vec->x = values[0];
+						vec->y = values[1];
+					}
+					break;
+				}
+
+				case ValueType::VECTOR3:
+				{
+					Vector3* vec = static_cast<Vector3*>(item.value);
+
+					float values[3] = { vec->x,vec->y,vec->z };
+
+					// ’l‚ª•ÏX‚³‚ê‚½ê‡‚Ì‚İ‘ã“ü
+					if (ImGui::SliderFloat3("##Value", values, -100.0f, 5000.0f))
+					{
+						vec->x = values[0];
+						vec->y = values[1];
+						vec->z = values[2];
+					}
+
+					break;
+				}
 				default:
 					break;
 				}
@@ -166,16 +213,42 @@ void Inspector::Render()
 
 		ImGui::PopID();
 	}
-
 }
 
+
 //********************************************************************
+// •Ï”íœ
+//********************************************************************
+#pragma region “o˜^‚µ‚Ä‚¢‚é•Ï”‚Ìíœ
 // “o˜^‚µ‚½•Ï”‚Ìíœ
-//********************************************************************
 void Inspector::Delete()
 {
 	m_items.clear();
 }
+
+// “o˜^‚µ‚½ƒOƒ‹[ƒv‚Ì•Ï”íœ
+void Inspector::GroupDelete(const std::string& groupName)
+{
+	m_items.erase(std::remove_if(m_items.begin(),m_items.end(),[&groupName](const InspectorItem& item)
+	{
+		return item.groupName == groupName;
+	}),
+		m_items.end()
+	);
+}
+
+// “o˜^‚µ‚½1‚Â‚Ì•Ï”‚Ìíœ
+void Inspector::OnceDelete(const std::string& name, const std::string& groupName)
+{
+	m_items.erase(std::remove_if(m_items.begin(), m_items.end(), [&name, &groupName](const InspectorItem& item)
+	{
+		return (item.name == name && item.groupName == groupName);
+	}),
+		m_items.end()
+	);
+}
+
+#pragma endregion
 
 //********************************************************************
 // ƒOƒ‹[ƒvì¬ŠJn

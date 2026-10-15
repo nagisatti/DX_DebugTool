@@ -17,10 +17,27 @@
 class Inspector
 {
 public:
+	// Vecor2Œ^
+	struct Vector2
+	{
+		float x;
+		float y;
+	};
+
+	// Vecor3Œ^
+	struct Vector3
+	{
+		float x;
+		float y;
+		float z;
+	};
+
 	// •Ï”‚ğ“o˜^
 	void RegisterFloat(const std::string& name, float* value);
 	void RegisterInt(const std::string& name, int* value);
 	void RegisterBool(const std::string& name, bool* value);
+	void RegisterVector2(const std::string& name, Vector2* value);
+	void RegisterVector3(const std::string& name, Vector3* value);
 
 	// ƒOƒ‹[ƒvì¬ŠJn
 	void BeginGroup(const std::string& groupName);
@@ -33,6 +50,12 @@ public:
 	// “o˜^‚µ‚½•Ï”‚Ìíœ
 	void Delete();
 
+	// “o˜^‚µ‚½ƒOƒ‹[ƒv‚Ì•Ï”íœ
+	void GroupDelete(const std::string& groupName);
+
+	// “o˜^‚µ‚½1‚Â‚Ì•Ï”‚Ìíœ
+	void OnceDelete(const std::string& name, const std::string& groupName);
+
 private:
 	// “o˜^‚·‚é•Ï”‚ÌŒ^
 	enum class ValueType
@@ -40,6 +63,8 @@ private:
 		Float,
 		Int,
 		Bool,
+		VECTOR2,
+		VECTOR3,
 	};
 
 	// “o˜^‚·‚é•Ï”‚Ìî•ñ

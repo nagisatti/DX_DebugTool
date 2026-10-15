@@ -65,10 +65,47 @@ void DebugManager::Update()
 	if (!m_initialized)
 		return;
 
-	// F1キーが押された場合にモードの切り替え
-	if (GetAsyncKeyState(VK_F1) & 1)
+	UpdateKey();
+
+}
+
+//********************************************************************
+// キーボード状態の更新
+//********************************************************************
+void DebugManager::UpdateKey()
+{
+	static bool previousKeys[12] = {};
+
+	for (int key = VK_F1; key <= VK_F12; key++)
 	{
-		m_visible = !m_visible;
+		int index = key - VK_F1;
+
+		// 現在押されているかどうか
+		isKey = (GetAsyncKeyState(key) & 0x8000) != 0;
+
+		// 押された瞬間のみ実行
+		if (isKey && !previousKeys[index])
+		{
+			switch (key)
+			{
+			// F1キーが押された場合にモードの切り替え
+			case VK_F1:
+				m_visible = !m_visible;
+				break;
+
+			// 削除関係のデバッグ用コマンド
+			case VK_F2:
+				m_inspector.OnceDelete("Player Speed", "player");
+
+			case VK_F3:
+				break;
+
+			default:
+				break;
+			}
+		}
+		// 現在の状態を保存
+		previousKeys[index] = isKey;
 	}
 
 }
@@ -175,6 +212,18 @@ void DebugManager::Release()
 	void DebugManager::RegisterBool(const std::string & name, bool* value)
 	{
 		m_inspector.RegisterBool(name, value);
+	}
+
+	// vector2
+	void DebugManager::RegisterVector2(const std::string& name, Inspector::Vector2* value)
+	{
+		m_inspector.RegisterVector2(name, value);
+	}
+
+	//vector3
+	void DebugManager::RegisterVector3(const std::string& name, Inspector::Vector3* value)
+	{
+		m_inspector.RegisterVector3(name, value);
 	}
 #pragma endregion
 

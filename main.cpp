@@ -57,6 +57,8 @@ int WINAPI WinMain(
     float playerSpeed = 5.0f;
     int playerHP = 100;
     bool invincible = false;
+    Inspector::Vector2 vec1 = { 10,20 };
+    Inspector::Vector3 vec2 = { 10,20 };
 
 	// ImGui生成
 	DebugManager debugManager;
@@ -80,6 +82,8 @@ int WINAPI WinMain(
     debugManager.RegisterFloat("Player Speed", &playerSpeed);
     debugManager.RegisterInt("Player HP", &playerHP);
     debugManager.RegisterBool("Invincible", &invincible);
+    debugManager.RegisterVector2("vec2", &vec1);
+    debugManager.RegisterVector3("vec3", &vec2);
     debugManager.EndInspectorGroup();
     // ウィンドウを表示
     window.Show(nCmdShow);
