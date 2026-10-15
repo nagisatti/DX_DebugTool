@@ -39,11 +39,11 @@ public:
 	void Release();      // DirectXのリソース解放
 
 	// Inspectorへの変数登録
-	void RegisterFloat(const std::string& name, float* value);
-	void RegisterInt(const std::string& name, int* value);
-	void RegisterBool(const std::string& name, bool* value);
-	void RegisterVector2(const std::string& name, Inspector::Vector2* value);
-	void RegisterVector3(const std::string& name, Inspector::Vector3* value);
+	void RegisterFloat(const std::string& name, float* value, bool readOnly = false);
+	void RegisterInt(const std::string& name, int* value, bool readOnly = false);
+	void RegisterBool(const std::string& name, bool* value, bool readOnly = false);
+	void RegisterVector2(const std::string& name, Inspector::Vector2* value, bool readOnly = false);
+	void RegisterVector3(const std::string& name, Inspector::Vector3* value, bool readOnly = false);
 
 	// 変数グループをインスペクタに登録
 	void BeginInspectorGroup(const std::string& groupName);

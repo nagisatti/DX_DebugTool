@@ -15,11 +15,7 @@
 //********************************************************************
 // ImGuiÇÃèâä˙âª
 //********************************************************************
-bool DebugManager::Initialize(
-	HWND hwnd,
-	ID3D11Device* device,
-	ID3D11DeviceContext* context
-)
+bool DebugManager::Initialize(HWND hwnd,ID3D11Device* device,ID3D11DeviceContext* context)
 {
 	// ÉKÅ[Éhèàóù
 	if(hwnd == nullptr || device == nullptr || context == nullptr)
@@ -197,33 +193,33 @@ void DebugManager::Release()
 //********************************************************************
 #pragma region Inspectorìoò^ä÷êî
 	// float
-	void DebugManager::RegisterFloat(const std::string & name, float* value)
+	void DebugManager::RegisterFloat(const std::string & name, float* value, bool readOnly)
 	{
-		m_inspector.RegisterFloat(name, value);
+		m_inspector.RegisterFloat(name, value,readOnly);
 	}
 
 	// int
-	void DebugManager::RegisterInt(const std::string & name, int* value)
+	void DebugManager::RegisterInt(const std::string & name, int* value, bool readOnly)
 	{
-		m_inspector.RegisterInt(name, value);
+		m_inspector.RegisterInt(name, value, readOnly);
 	}
 
 	// bool
-	void DebugManager::RegisterBool(const std::string & name, bool* value)
+	void DebugManager::RegisterBool(const std::string & name, bool* value, bool readOnly)
 	{
-		m_inspector.RegisterBool(name, value);
+		m_inspector.RegisterBool(name, value, readOnly);
 	}
 
 	// vector2
-	void DebugManager::RegisterVector2(const std::string& name, Inspector::Vector2* value)
+	void DebugManager::RegisterVector2(const std::string& name, Inspector::Vector2* value, bool readOnly)
 	{
-		m_inspector.RegisterVector2(name, value);
+		m_inspector.RegisterVector2(name, value, readOnly);
 	}
 
 	//vector3
-	void DebugManager::RegisterVector3(const std::string& name, Inspector::Vector3* value)
+	void DebugManager::RegisterVector3(const std::string& name, Inspector::Vector3* value, bool readOnly)
 	{
-		m_inspector.RegisterVector3(name, value);
+		m_inspector.RegisterVector3(name, value, readOnly);
 	}
 #pragma endregion
 

@@ -79,7 +79,7 @@ int WINAPI WinMain(
 	}
 
     debugManager.BeginInspectorGroup("player");
-    debugManager.RegisterFloat("Player Speed", &playerSpeed);
+    debugManager.RegisterFloat("Player Speed", &playerSpeed,true);
     debugManager.RegisterInt("Player HP", &playerHP);
     debugManager.RegisterBool("Invincible", &invincible);
     debugManager.RegisterVector2("vec2", &vec1);
