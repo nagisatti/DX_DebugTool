@@ -8,13 +8,15 @@
 //********************************************************************
 #include "inspector.h"
 #include "imgui.h"
+#include <algorithm>
+#include <cctype>
 
 //********************************************************************
 // •Ï”“o˜^
 //********************************************************************
 #pragma region •Ï”“o˜^
 // float
-void Inspector::RegisterFloat(const std::string& name, float* value)
+void Inspector::RegisterFloat(const std::string& name, float* value,bool readOnly )
 {
 	// ƒK[ƒhˆ—
 	if (value == nullptr)
@@ -27,12 +29,12 @@ void Inspector::RegisterFloat(const std::string& name, float* value)
 			return;
 	}
 
-	m_items.push_back({name,m_currentGroup,ValueType::Float,value});
+	m_items.push_back({name,m_currentGroup,ValueType::Float,value,readOnly});
 
 }
 
 // int
-void Inspector::RegisterInt(const std::string& name, int* value)
+void Inspector::RegisterInt(const std::string& name, int* value, bool readOnly)
 {
 	// ƒK[ƒhˆ—
 	if (value == nullptr)
@@ -45,12 +47,12 @@ void Inspector::RegisterInt(const std::string& name, int* value)
 			return;
 	}
 
-	m_items.push_back({name,m_currentGroup,ValueType::Int,value});
+	m_items.push_back({name,m_currentGroup,ValueType::Int,value,readOnly });
 
 }
 
 // bool
-void Inspector::RegisterBool(const std::string& name, bool* value)
+void Inspector::RegisterBool(const std::string& name, bool* value, bool readOnly)
 {
 	// ƒK[ƒhˆ—
 	if (value == nullptr)
@@ -63,12 +65,12 @@ void Inspector::RegisterBool(const std::string& name, bool* value)
 			return;
 	}
 
-	m_items.push_back({name,m_currentGroup,ValueType::Bool,value});
+	m_items.push_back({name,m_currentGroup,ValueType::Bool,value,readOnly });
 
 }
 
 // Vector2
-void Inspector::RegisterVector2(const std::string& name, Vector2* value)
+void Inspector::RegisterVector2(const std::string& name, Vector2* value, bool readOnly)
 {
 	// ƒK[ƒhˆ—
 	if (value == nullptr)
@@ -81,11 +83,11 @@ void Inspector::RegisterVector2(const std::string& name, Vector2* value)
 			return;
 	}
 
-	m_items.push_back({name,m_currentGroup,ValueType::VECTOR2,value});
+	m_items.push_back({name,m_currentGroup,ValueType::VECTOR2,value,readOnly });
 }
 
 // vector3
-void Inspector::RegisterVector3(const std::string& name, Vector3* value)
+void Inspector::RegisterVector3(const std::string& name, Vector3* value, bool readOnly)
 {
 	// ƒK[ƒhˆ—
 	if (value == nullptr)
@@ -98,7 +100,7 @@ void Inspector::RegisterVector3(const std::string& name, Vector3* value)
 			return;
 	}
 
-	m_items.push_back({name,m_currentGroup,ValueType::VECTOR3,value});
+	m_items.push_back({name,m_currentGroup,ValueType::VECTOR3,value,readOnly});
 }
 
 #pragma endregion
@@ -108,6 +110,9 @@ void Inspector::RegisterVector3(const std::string& name, Vector3* value)
 //********************************************************************
 void Inspector::Render()
 {
+	// ŒŸõ—“
+	ImGui::InputTextWithHint("##Serach","Search variables ...", m_search, sizeof(m_search));
+
 	for (const auto& gropItem : m_items)
 	{
 
@@ -134,6 +139,30 @@ void Inspector::Render()
 		if (isDisplay)
 			continue;
 
+		bool match = false;
+
+		for (const auto& item : m_items)
+		{
+			if (item.groupName != group)
+				continue;
+			// ŒŸõ‚Éˆø‚Á‚©‚©‚ç‚È‚¢ê‡‚Í•\¦‚µ‚È‚¢
+			if (m_search[0] != '\0')
+			{
+				std::string itemName = Tolower(item.name);
+				std::string search = Tolower(m_search);
+
+				// ˆê’v‚µ‚È‚¢ê‡‚Í”ò‚Î‚·
+				if (item.name.find(m_search) == std::string::npos)
+					continue;
+				
+			}
+			// ŒŸõ—“‚ª‹ó‚Ü‚½‚ÍŒŸõˆê’v‚µ‚½ê‡
+			match = true;
+			break;
+		}
+
+		if (!match)
+			continue;
 
 		ImGui::PushID(group.c_str());
 
@@ -143,6 +172,15 @@ void Inspector::Render()
 			{
 				if (item.groupName != group)
 					continue;
+
+				// ŒŸõ‚Éˆø‚Á‚©‚©‚ç‚È‚¢ê‡‚Í•\¦‚µ‚È‚¢
+				if (m_search[0] != '\0')
+				{
+					// ˆê’v‚µ‚È‚¢ê‡‚Í”ò‚Î‚·
+					if (item.name.find(m_search) == std::string::npos)
+						continue;
+
+				}
 
 				ImGui::PushID(item.name.c_str());
 
@@ -155,6 +193,9 @@ void Inspector::Render()
 				// “ü—Í—“‚Ì•
 				ImGui::SetNextItemWidth(-1.0f);
 
+				// “Ç‚İæ‚èê—p‚Ìİ’è
+				ImGui::BeginDisabled(item.readOnly);
+
 				switch (item.type)
 				{
 				case ValueType::Float:
@@ -165,9 +206,11 @@ void Inspector::Render()
 				case ValueType::Int:
 					//ImGui::DragInt(item.name.c_str(), static_cast<int*>(item.value));
 					ImGui::SliderInt("##Value", static_cast<int*>(item.value), -100, 5000);
+
 					break;
 
 				case ValueType::Bool:
+
 					ImGui::Checkbox("##Value", static_cast<bool*>(item.value));
 					break;
 
@@ -205,6 +248,10 @@ void Inspector::Render()
 				default:
 					break;
 				}
+
+				// “Ç‚İæ‚èê—p‚ÌI—¹
+				ImGui::EndDisabled();
+
 				ImGui::PopID();
 			}			
 			// TreeNode‚ğŠJ‚¢‚½ê‡‚¾‚¯ŒÄ‚Ño‚·
@@ -264,4 +311,20 @@ void Inspector::BeginGroup(const std::string& groupName)
 void Inspector::EndGroup()
 {
 	m_currentGroup.clear();
+}
+
+//********************************************************************
+// ‰pš‚ğ¬•¶š‚É•ÏŠ·
+//********************************************************************
+std::string Inspector::Tolower(const std::string& str)
+{
+	std::string result = str;
+
+	std::transform(result.begin(), result.end(), result.begin(),
+		[](unsigned char c)
+		{
+			return static_cast<char>(std::tolower(c));
+		});
+
+	return result;
 }

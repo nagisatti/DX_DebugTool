@@ -33,11 +33,11 @@ public:
 	};
 
 	// •Ï”‚ğ“o˜^
-	void RegisterFloat(const std::string& name, float* value);
-	void RegisterInt(const std::string& name, int* value);
-	void RegisterBool(const std::string& name, bool* value);
-	void RegisterVector2(const std::string& name, Vector2* value);
-	void RegisterVector3(const std::string& name, Vector3* value);
+	void RegisterFloat(const std::string& name, float* value, bool readOnly = false);
+	void RegisterInt(const std::string& name, int* value, bool readOnly = false);
+	void RegisterBool(const std::string& name, bool* value, bool readOnly = false);
+	void RegisterVector2(const std::string& name, Vector2* value, bool readOnly = false);
+	void RegisterVector3(const std::string& name, Vector3* value, bool readOnly = false);
 
 	// ƒOƒ‹[ƒvì¬ŠJn
 	void BeginGroup(const std::string& groupName);
@@ -55,6 +55,9 @@ public:
 
 	// “o˜^‚µ‚½1‚Â‚Ì•Ï”‚Ìíœ
 	void OnceDelete(const std::string& name, const std::string& groupName);
+
+	// ‰pš‚ğ¬•¶š‚É•ÏŠ·
+	std::string Tolower(const std::string& name);
 
 private:
 	// “o˜^‚·‚é•Ï”‚ÌŒ^
@@ -74,6 +77,7 @@ private:
 		std::string groupName;
 		ValueType type;
 		void* value;
+		bool readOnly;
 	};
 
 	// “o˜^‚³‚ê‚½•Ï”‚Ìˆê——
@@ -81,6 +85,9 @@ private:
 
 	// Œ»İŠ‘®‚µ‚Ä‚¢‚éƒOƒ‹[ƒv–¼
 	std::string m_currentGroup;
+
+	// ŒŸõ—p•Ï”(InputText()‚ªŠî–{•¶šƒoƒbƒtƒ@‚ğó‚¯æ‚é‚½‚ßcharŒ^‚Åì¬)
+	char m_search[128] = {};
 };
 
 
