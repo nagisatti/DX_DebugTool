@@ -83,7 +83,8 @@ void Inspector::Render()
 		switch (item.type)
 		{
 		case ValueType::Float:
-			ImGui::DragFloat(item.name.c_str(), static_cast<float*>(item.value));
+			//ImGui::DragFloat(item.name.c_str(), static_cast<float*>(item.value));
+			ImGui::SliderFloat(item.name.c_str(), static_cast<float*>(item.value), 0.0f, 10.0f);
 			break;
 
 		case ValueType::Int:
