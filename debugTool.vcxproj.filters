@@ -31,6 +31,9 @@
     <Filter Include="DebugStudio\Inspector">
       <UniqueIdentifier>{7c7d0aff-7061-4fd1-a141-425dc539bcaf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="DebugStudio\DebugConsole">
+      <UniqueIdentifier>{8653929d-fd3f-4530-9bbd-9ec800fdc599}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ThirdParty\imgui\backends\imgui_impl_dx11.h">
@@ -69,6 +72,9 @@
     <ClInclude Include="DebugStudio\Inspector\inspector.h">
       <Filter>DebugStudio\Inspector</Filter>
     </ClInclude>
+    <ClInclude Include="DebugStudio\debugConsole.h">
+      <Filter>DebugStudio\DebugConsole</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ThirdParty\imgui\backends\imgui_impl_win32.cpp">
@@ -106,6 +112,9 @@
     </ClCompile>
     <ClCompile Include="DebugStudio\Inspector\inspector.cpp">
       <Filter>DebugStudio\Inspector</Filter>
+    </ClCompile>
+    <ClCompile Include="DebugStudio\debugConsole.cpp">
+      <Filter>DebugStudio\DebugConsole</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

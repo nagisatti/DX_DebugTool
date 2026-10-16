@@ -12,6 +12,7 @@
 #include <Windows.h>
 #include <d3d11.h>
 #include "inspector.h"
+#include "debugConsole.h"
 
 //********************************************************************
 // クラス
@@ -22,6 +23,7 @@ private:
 	bool m_visible = true;     // デバッグ描画の可視状態
 	bool m_initialized = true; // 初期化成功・失敗のフラッグ
 	Inspector m_inspector;
+	DebugConsole m_console;
 	bool isKey;                // キーが押されているか
 
 public:
@@ -39,15 +41,21 @@ public:
 	void Release();      // DirectXのリソース解放
 
 	// Inspectorへの変数登録
-	void RegisterFloat(const std::string& name, float* value);
-	void RegisterInt(const std::string& name, int* value);
-	void RegisterBool(const std::string& name, bool* value);
-	void RegisterVector2(const std::string& name, Inspector::Vector2* value);
-	void RegisterVector3(const std::string& name, Inspector::Vector3* value);
+	void RegisterFloat(const std::string& name, float* value, bool readOnly = false);
+	void RegisterInt(const std::string& name, int* value, bool readOnly = false);
+	void RegisterBool(const std::string& name, bool* value, bool readOnly = false);
+	void RegisterVector2(const std::string& name, Inspector::Vector2* value, bool readOnly = false);
+	void RegisterVector3(const std::string& name, Inspector::Vector3* value, bool readOnly = false);
 
 	// 変数グループをインスペクタに登録
 	void BeginInspectorGroup(const std::string& groupName);
 	void EndInspectorGroup();
+
+	// ログの登録
+	void LogInfo(const std::string& message);
+	void LogWarning(const std::string& message);
+	void LogError(const std::string& message);
+
 };
 
 
