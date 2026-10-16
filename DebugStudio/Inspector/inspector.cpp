@@ -145,17 +145,14 @@ void Inspector::Render()
 		{
 			if (item.groupName != group)
 				continue;
-			// ŒŸõ‚Éˆø‚Á‚©‚©‚ç‚È‚¢ê‡‚Í•\¦‚µ‚È‚¢
-			if (m_search[0] != '\0')
-			{
-				std::string itemName = Tolower(item.name);
-				std::string search = Tolower(m_search);
 
-				// ˆê’v‚µ‚È‚¢ê‡‚Í”ò‚Î‚·
-				if (item.name.find(m_search) == std::string::npos)
-					continue;
-				
-			}
+			std::string itemName = Tolower(item.name);
+			std::string search = Tolower(m_search);
+
+			// ŒŸõ‚Éˆø‚Á‚©‚©‚ç‚È‚¢ê‡‚Í•\¦‚µ‚È‚¢
+			if (!Search(item.name))
+				continue;
+
 			// ŒŸõ—“‚ª‹ó‚Ü‚½‚ÍŒŸõˆê’v‚µ‚½ê‡
 			match = true;
 			break;
@@ -174,13 +171,8 @@ void Inspector::Render()
 					continue;
 
 				// ŒŸõ‚Éˆø‚Á‚©‚©‚ç‚È‚¢ê‡‚Í•\¦‚µ‚È‚¢
-				if (m_search[0] != '\0')
-				{
-					// ˆê’v‚µ‚È‚¢ê‡‚Í”ò‚Î‚·
-					if (item.name.find(m_search) == std::string::npos)
-						continue;
-
-				}
+				if (!Search(item.name))
+					continue;
 
 				ImGui::PushID(item.name.c_str());
 
@@ -262,6 +254,17 @@ void Inspector::Render()
 	}
 }
 
+//********************************************************************
+// ŒŸõŠÖ”
+//********************************************************************
+bool Inspector::Search(const std::string& str)
+{
+	if (m_search[0] != '\0')
+		true;
+
+	return Tolower(str).find(Tolower(m_search))
+		!= std::string::npos;
+}
 
 //********************************************************************
 // •Ï”íœ

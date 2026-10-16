@@ -16,6 +16,27 @@
 //********************************************************************
 class Inspector
 {
+private :
+	// “o˜^‚·‚é•Ï”‚ÌŒ^
+	enum class ValueType
+	{
+		Float,
+		Int,
+		Bool,
+		VECTOR2,
+		VECTOR3,
+	};
+
+	// “o˜^‚·‚é•Ï”‚Ìî•ñ
+	struct InspectorItem
+	{
+		std::string name;
+		std::string groupName;
+		ValueType type;
+		void* value;
+		bool readOnly;
+	};
+
 public:
 	// Vecor2Œ^
 	struct Vector2
@@ -57,28 +78,9 @@ public:
 	void OnceDelete(const std::string& name, const std::string& groupName);
 
 	// ‰pš‚ğ¬•¶š‚É•ÏŠ·
-	std::string Tolower(const std::string& name);
+	std::string Tolower(const std::string& name);	
 
 private:
-	// “o˜^‚·‚é•Ï”‚ÌŒ^
-	enum class ValueType
-	{
-		Float,
-		Int,
-		Bool,
-		VECTOR2,
-		VECTOR3,
-	};
-
-	// “o˜^‚·‚é•Ï”‚Ìî•ñ
-	struct InspectorItem
-	{
-		std::string name;
-		std::string groupName;
-		ValueType type;
-		void* value;
-		bool readOnly;
-	};
 
 	// “o˜^‚³‚ê‚½•Ï”‚Ìˆê——
 	std::vector<InspectorItem> m_items;
@@ -88,6 +90,9 @@ private:
 
 	// ŒŸõ—p•Ï”(InputText()‚ªŠî–{•¶šƒoƒbƒtƒ@‚ğó‚¯æ‚é‚½‚ßcharŒ^‚Åì¬)
 	char m_search[128] = {};
+
+	// ŒŸõŠÖ”
+	bool Search(const std::string& str);
 };
 
 
