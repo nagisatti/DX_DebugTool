@@ -12,6 +12,7 @@
 #include <Windows.h>
 #include <d3d11.h>
 #include "inspector.h"
+#include "debugConsole.h"
 
 //********************************************************************
 // クラス
@@ -22,6 +23,7 @@ private:
 	bool m_visible = true;     // デバッグ描画の可視状態
 	bool m_initialized = true; // 初期化成功・失敗のフラッグ
 	Inspector m_inspector;
+	DebugConsole m_console;
 	bool isKey;                // キーが押されているか
 
 public:
@@ -48,6 +50,12 @@ public:
 	// 変数グループをインスペクタに登録
 	void BeginInspectorGroup(const std::string& groupName);
 	void EndInspectorGroup();
+
+	// ログの登録
+	void LogInfo(const std::string& message);
+	void LogWarning(const std::string& message);
+	void LogError(const std::string& message);
+
 };
 
 

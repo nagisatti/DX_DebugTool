@@ -80,6 +80,9 @@ public:
 	// 英字を小文字に変換
 	std::string Tolower(const std::string& name);	
 
+	// 検索関数
+	bool Search(const std::string& str, char str1[128]);
+
 private:
 
 	// 登録された変数の一覧
@@ -91,8 +94,6 @@ private:
 	// 検索用変数(InputText()が基本文字バッファを受け取るためchar型で作成)
 	char m_search[128] = {};
 
-	// 検索関数
-	bool Search(const std::string& str);
 };
 
 
