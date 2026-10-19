@@ -6,6 +6,9 @@
 #include "Window.h"
 #include "renderer.h"
 #include "debugManager.h"
+#include "debugConsole.h"
+
+DebugConsole debugConsole;
 
 int WINAPI WinMain(
     HINSTANCE hInstance,
@@ -18,12 +21,7 @@ int WINAPI WinMain(
     Window window;
 
     // ウィンドウを初期化
-    if (!window.Initialize(
-        hInstance,
-        1280,
-        720,
-        L"Game Debug Studio"
-    ))
+    if (!window.Initialize(hInstance,1280,720,L"Game Debug Studio"))
     {
         MessageBoxW(
             nullptr,
@@ -38,11 +36,7 @@ int WINAPI WinMain(
 	// DirectX 11のレンダラーを生成
     Renderer renderer;
 
-    if (!renderer.Initialize(
-        window.GetHWND(),
-        1280,
-        720
-    ))
+    if (!renderer.Initialize(window.GetHWND(),1280,720))
     {
         MessageBoxW(
             nullptr,
@@ -63,11 +57,7 @@ int WINAPI WinMain(
 	// ImGui生成
 	DebugManager debugManager;
 
-    if (!debugManager.Initialize(
-        window.GetHWND(),
-        renderer.GetDevice(),
-        renderer.GetContext()
-    ))
+    if (!debugManager.Initialize(window.GetHWND(),renderer.GetDevice(),renderer.GetContext()))
     {
         MessageBoxW(
             nullptr,
@@ -85,6 +75,12 @@ int WINAPI WinMain(
     debugManager.RegisterVector2("vec2", &vec1);
     debugManager.RegisterVector3("vec3", &vec2);
     debugManager.EndInspectorGroup();
+
+
+    debugManager.LogInfo("Game initialized");
+    debugManager.LogWarning("egg");
+    debugManager.LogError("baka");
+
     // ウィンドウを表示
     window.Show(nCmdShow);
 
@@ -118,6 +114,8 @@ int WINAPI WinMain(
             renderer.EndFrame();
         }
     }
+
+    debugConsole.OutPut();
 
     // DirectX 11の終了処理
     renderer.Release();

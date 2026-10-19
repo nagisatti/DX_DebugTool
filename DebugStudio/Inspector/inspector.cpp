@@ -146,11 +146,11 @@ void Inspector::Render()
 			if (item.groupName != group)
 				continue;
 
-			std::string itemName = Tolower(item.name);
-			std::string search = Tolower(m_search);
+			/*std::string itemName = Tolower(item.name);
+			std::string search = Tolower(m_search);*/
 
 			// ŒŸõ‚Éˆø‚Á‚©‚©‚ç‚È‚¢ê‡‚Í•\¦‚µ‚È‚¢
-			if (!Search(item.name))
+			if (!Search(item.name, m_search))
 				continue;
 
 			// ŒŸõ—“‚ª‹ó‚Ü‚½‚ÍŒŸõˆê’v‚µ‚½ê‡
@@ -171,7 +171,7 @@ void Inspector::Render()
 					continue;
 
 				// ŒŸõ‚Éˆø‚Á‚©‚©‚ç‚È‚¢ê‡‚Í•\¦‚µ‚È‚¢
-				if (!Search(item.name))
+				if (!Search(item.name, m_search))
 					continue;
 
 				ImGui::PushID(item.name.c_str());
@@ -257,12 +257,12 @@ void Inspector::Render()
 //********************************************************************
 // ŒŸõŠÖ”
 //********************************************************************
-bool Inspector::Search(const std::string& str)
+bool Inspector::Search(const std::string& str, char str1[128])
 {
-	if (m_search[0] != '\0')
+	if (str1[0] != '\0')
 		true;
 
-	return Tolower(str).find(Tolower(m_search))
+	return Tolower(str).find(Tolower(str1))
 		!= std::string::npos;
 }
 

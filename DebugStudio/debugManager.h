@@ -12,6 +12,7 @@
 #include <Windows.h>
 #include <d3d11.h>
 #include "inspector.h"
+#include "debugConsole.h"
 
 //********************************************************************
 // クラス
@@ -22,17 +23,14 @@ private:
 	bool m_visible = true;     // デバッグ描画の可視状態
 	bool m_initialized = true; // 初期化成功・失敗のフラッグ
 	Inspector m_inspector;
+	DebugConsole m_console;
 	bool isKey;                // キーが押されているか
 
 public:
 	// debugManagerの初期化
-	bool Initialize(
-		HWND hwnd, 
-		ID3D11Device* device,
-		ID3D11DeviceContext* context
-	);
+	bool Initialize(HWND hwnd, ID3D11Device* device,ID3D11DeviceContext* context);
 
-	void BeginFrame();   // 描画開始
+	void BeginFrame() const;   // 描画開始
 	void Update();       // デバッグ機能の更新
 	void UpdateKey();    // キーボード状態の更新
 	void Render();       // デバッグ描画
@@ -48,8 +46,14 @@ public:
 	// 変数グループをインスペクタに登録
 	void BeginInspectorGroup(const std::string& groupName);
 	void EndInspectorGroup();
+
+	// ログの登録
+	void LogInfo(const std::string& message);
+	void LogWarning(const std::string& message);
+	void LogError(const std::string& message);
+
 };
 
 
-#endif // !DEBUGMANAGER_H
+#endif // DEBUGMANAGER_H
 

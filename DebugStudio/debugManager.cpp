@@ -11,7 +11,6 @@
 #include "imgui_impl_win32.h"
 #include "imgui_impl_dx11.h"
 
-
 //********************************************************************
 // ImGuiÇÃèâä˙âª
 //********************************************************************
@@ -94,6 +93,7 @@ void DebugManager::UpdateKey()
 				m_inspector.OnceDelete("Player Speed", "player");
 
 			case VK_F3:
+				LogInfo("info");
 				break;
 
 			default:
@@ -109,7 +109,7 @@ void DebugManager::UpdateKey()
 //********************************************************************
 // ï`âÊäJén
 //********************************************************************
-void DebugManager::BeginFrame()
+void DebugManager::BeginFrame() const 
 {
 	// ÉKÅ[Éhèàóù
 	if (!m_initialized)
@@ -144,11 +144,16 @@ void DebugManager::Render()
 		// InspectorÇï`âÊ
 		if (ImGui::TreeNode("Inspector"))
 		{
-
-			ImGui::Separator();
-
 			m_inspector.Render();
 
+			ImGui::TreePop();
+		}
+
+		if (ImGui::TreeNode("DebugConsole"))
+		{
+
+			ImGui::Separator();
+			m_console.Render();
 			ImGui::TreePop();
 		}
 
@@ -238,3 +243,27 @@ void DebugManager::EndInspectorGroup()
 {
 	m_inspector.EndGroup();
 }
+
+//********************************************************************
+// ÉçÉOìoò^
+//********************************************************************
+#pragma region ÉçÉOìoò^
+// info
+void DebugManager::LogInfo(const std::string& message)
+{
+	m_console.AddLog(DebugConsole::LogLevel::Info, message);
+}
+
+// warning
+void DebugManager::LogWarning(const std::string& message)
+{
+	m_console.AddLog(DebugConsole::LogLevel::Warning, message);
+}
+
+// error
+void DebugManager::LogError(const std::string& message)
+{
+	m_console.AddLog(DebugConsole::LogLevel::Error, message);
+}
+
+#pragma endregion

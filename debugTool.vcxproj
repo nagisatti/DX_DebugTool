@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="DebugStudio\debugConsole.h" />
     <ClInclude Include="DebugStudio\debugManager.h" />
     <ClInclude Include="DebugStudio\Inspector\inspector.h" />
     <ClInclude Include="renderer.h" />
@@ -33,6 +34,7 @@
     <ClInclude Include="window.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="DebugStudio\debugConsole.cpp" />
     <ClCompile Include="DebugStudio\debugManager.cpp" />
     <ClCompile Include="DebugStudio\Inspector\inspector.cpp" />
     <ClCompile Include="main.cpp" />
