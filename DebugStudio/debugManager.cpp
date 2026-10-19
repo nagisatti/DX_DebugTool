@@ -93,6 +93,7 @@ void DebugManager::UpdateKey()
 				m_inspector.OnceDelete("Player Speed", "player");
 
 			case VK_F3:
+				LogInfo("info");
 				break;
 
 			default:
@@ -108,7 +109,7 @@ void DebugManager::UpdateKey()
 //********************************************************************
 // 描画開始
 //********************************************************************
-void DebugManager::BeginFrame()
+void DebugManager::BeginFrame() const 
 {
 	// ガード処理
 	if (!m_initialized)

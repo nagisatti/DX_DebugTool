@@ -42,9 +42,10 @@ private:
     Inspector m_inspector;
 
     // ログのレベルフィルタリング
-    bool LogSearch(LogLevel level, LogLevel level1);
+    bool const LogSearch(LogLevel level, LogLevel level1);
 
     bool level[3] = { false };
+    bool isAdd = false;
 
     // 現在時刻取得用構造体
     struct tm {
@@ -61,11 +62,11 @@ public:
     void AddLog(LogLevel level, const std::string& message);
     void Clear();
     void Render();
+    void AutoScroll();
+    void OutPut() const;
 
 private:
-    static constexpr size_t MAX_LOGS = 1000;                 
-
-
+    static constexpr size_t MAX_LOGS = 1000;
 };
 
 

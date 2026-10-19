@@ -28,13 +28,9 @@ private:
 
 public:
 	// debugManagerの初期化
-	bool Initialize(
-		HWND hwnd, 
-		ID3D11Device* device,
-		ID3D11DeviceContext* context
-	);
+	bool Initialize(HWND hwnd, ID3D11Device* device,ID3D11DeviceContext* context);
 
-	void BeginFrame();   // 描画開始
+	void BeginFrame() const;   // 描画開始
 	void Update();       // デバッグ機能の更新
 	void UpdateKey();    // キーボード状態の更新
 	void Render();       // デバッグ描画
@@ -59,5 +55,5 @@ public:
 };
 
 
-#endif // !DEBUGMANAGER_H
+#endif // DEBUGMANAGER_H
 

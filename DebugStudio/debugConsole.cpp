@@ -8,6 +8,7 @@
 //********************************************************************
 #include "debugConsole.h"
 #include "imgui.h"
+#include <fstream>
 
 
 //********************************************************************
@@ -25,6 +26,8 @@ void DebugConsole::AddLog(LogLevel level, const std::string& message)
     std::time_t now = std::time(nullptr);
 
 	m_logs.push_back({ level, message, now });
+
+    isAdd = true;
 }
 
 //********************************************************************
@@ -98,6 +101,9 @@ void DebugConsole::Render()
         ImGui::TextColored(color, "% s", log.message.c_str());
     }
 
+    // 自動スクロール
+    AutoScroll();
+
     ImGui::EndChild();
 
     // ログの消去
@@ -119,7 +125,50 @@ void DebugConsole::Clear()
 //********************************************************************
 // ログのレベルフィルタリング
 //********************************************************************
-bool DebugConsole::LogSearch(LogLevel level , LogLevel level1)
+bool const DebugConsole::LogSearch(LogLevel level , LogLevel level1)
 {
     return level == level1;
+}
+
+//********************************************************************
+// ログの自動スクロール
+//********************************************************************
+void DebugConsole::AutoScroll()
+{
+    // ログが追加されたら
+    if (isAdd)
+    {
+        // 画面下部まで自動スクロール
+        //ImGui::SetScrollHereY(1.0f);
+        ImGui::SetScrollY(ImGui::GetScrollMaxY());
+
+        isAdd = false;
+    }
+}
+
+//********************************************************************
+// ログのファイル出力
+//********************************************************************
+void DebugConsole::OutPut() const
+{
+    // ガード処理
+    if (!isAdd)
+        return;
+
+    // 出力ファイルを開く
+    std::ofstream outputFile("log.txt");
+
+    // ファイルが開けなかった場合
+    if (!outputFile.is_open())
+        return;
+
+    // ログを1件ずつ出力
+    for (const auto& log : m_logs)
+    {
+        outputFile << log.message << '\n';
+    }
+
+    // ファイルを閉じる
+    outputFile.close();
+
 }

@@ -6,6 +6,9 @@
 #include "Window.h"
 #include "renderer.h"
 #include "debugManager.h"
+#include "debugConsole.h"
+
+DebugConsole debugConsole;
 
 int WINAPI WinMain(
     HINSTANCE hInstance,
@@ -111,6 +114,8 @@ int WINAPI WinMain(
             renderer.EndFrame();
         }
     }
+
+    debugConsole.OutPut();
 
     // DirectX 11‚ÌI—¹ˆ—
     renderer.Release();
